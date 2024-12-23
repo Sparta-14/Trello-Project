@@ -1,4 +1,4 @@
-package com.spata14.trelloproject.entity;
+package com.spata14.trelloproject.entity.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
