@@ -1,4 +1,4 @@
-package com.spata14.trelloproject.util;
+package com.spata14.trelloproject.common.util;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
