@@ -63,6 +63,10 @@ public class UserService {
         return UserResponseDto.toDto(findUser);
     }
 
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmailOrElseThrow(email);
+    }
+
 
     private void passwordCheck(String password, User user) {
         if (!PasswordEncoder.matches(password, user.getPassword())) {

@@ -23,4 +23,12 @@ public class WorkspaceUser {
     @ManyToOne
     @JoinColumn(name = "workspace_id", nullable = false)
     private Workspace workspace;
+
+    public WorkspaceUser(User user, Workspace workspace, UserRole userRole) {
+        this.user = user;
+        this.workspace = workspace;
+        this.userRole = userRole;
+    }
+
+    protected WorkspaceUser() {}
 }
