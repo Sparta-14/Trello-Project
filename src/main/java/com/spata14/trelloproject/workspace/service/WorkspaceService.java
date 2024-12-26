@@ -31,7 +31,7 @@ public class WorkspaceService {
         Workspace workspace = new Workspace(dto.getName(), dto.getDescription());
         workspaceRepository.save(workspace);
 
-        //생성자 권한을 ALL 로 설정 (admin)
+        //생성자 역할을 ALL 로 설정 (admin)
         workspaceUserRepository.save(new WorkspaceUser(mySelf, workspace, UserRole.ALL));
 
         return WorkspaceResponseDto.toDto(workspace);
@@ -46,10 +46,30 @@ public class WorkspaceService {
             throw new IllegalArgumentException("이미 초대된 멤버입니다.");
         }
 
-        // 권한을 READ 로 설정
+        // 역할을 READ 로 설정
         workspaceUserRepository.save(new WorkspaceUser(user, workspace, UserRole.READ));
 
         return user.getEmail() + " 님을 워크스페이스에 초대하였습니다.";
+    }
+
+    @Transactional
+    public WorkspaceResponseDto update(Long id, WorkspaceRequestDto dto) {
+        if (!isMember(userService.findUserByEmail(sessionUtils.getLoginUserEmail()))) { //다른 admin 계정이 접근할 시
+            throw new IllegalArgumentException("권한이 없습니다.");
+        }
+        Workspace workspace = workspaceRepository.findByIdOrElseThrow(id);
+        workspace.updateWorkspace(dto.getName(), dto.getDescription());
+        workspaceRepository.save(workspace);
+
+        return WorkspaceResponseDto.toDto(workspace);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!isMember(userService.findUserByEmail(sessionUtils.getLoginUserEmail()))) {
+            throw new IllegalArgumentException("권한이 없습니다.");
+        }
+        workspaceRepository.delete(workspaceRepository.findByIdOrElseThrow(id));
     }
 
     /**

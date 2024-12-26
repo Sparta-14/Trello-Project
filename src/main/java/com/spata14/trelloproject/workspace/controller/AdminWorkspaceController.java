@@ -25,4 +25,15 @@ public class AdminWorkspaceController {
         String result = workspaceService.addMember(id, dto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<WorkspaceResponseDto> updateWorkspace(@PathVariable Long id, @RequestBody WorkspaceRequestDto dto) {
+        return new ResponseEntity<>(workspaceService.update(id, dto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWorkspace(@PathVariable Long id) {
+        workspaceService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
