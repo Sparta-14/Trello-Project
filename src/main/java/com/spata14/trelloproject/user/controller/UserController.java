@@ -4,6 +4,7 @@ import com.spata14.trelloproject.user.dto.UserRequestDto;
 import com.spata14.trelloproject.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody UserRequestDto dto) {
+    public ResponseEntity<Void> signUp(@Valid @RequestBody UserRequestDto dto) {
         userService.createUser(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
