@@ -3,10 +3,12 @@ package com.spata14.trelloproject.user;
 import com.spata14.trelloproject.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @Entity
 @Table(name = "users")
+@DynamicUpdate
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +42,9 @@ public class User extends BaseEntity {
     }
 
     //TODO : 연관 관계
+
+    //편의 메서드
+    public void deactivateUser() {
+        this.status = UserStatus.DEACTIVATED;
+    }
 }
