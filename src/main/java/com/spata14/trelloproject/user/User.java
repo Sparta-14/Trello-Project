@@ -1,13 +1,16 @@
 package com.spata14.trelloproject.user;
 
 import com.spata14.trelloproject.common.BaseEntity;
+import com.spata14.trelloproject.workspace.WorkspaceUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
-@Table(name = "users")
 @DynamicUpdate
 public class User extends BaseEntity {
     @Id
@@ -42,6 +45,9 @@ public class User extends BaseEntity {
     }
 
     //TODO : 연관 관계
+    @OneToMany(mappedBy = "user")
+    private List<WorkspaceUser> workspaces = new ArrayList<>();
+
 
     //편의 메서드
     public void deactivateUser() {

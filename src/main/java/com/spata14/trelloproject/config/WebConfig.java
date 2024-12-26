@@ -43,10 +43,10 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     private static final String[] ADMIN_REQUIRED_PATH_PATTERNS = {"/admin/**"};
-    private static final String[] USER_REQUIRED_PATH_PATTERNS = {"/user/**"};
+    //private static final String[] USER_REQUIRED_PATH_PATTERNS = {"/user/**"};
 
     private final AdminInterceptor adminInterceptor;
-    private final UserInterceptor userInterceptor;
+    //private final UserInterceptor userInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -54,8 +54,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns(ADMIN_REQUIRED_PATH_PATTERNS)
                 .order(Ordered.HIGHEST_PRECEDENCE);
 
-        registry.addInterceptor(userInterceptor)
-                .addPathPatterns(USER_REQUIRED_PATH_PATTERNS)
-                .order(Ordered.HIGHEST_PRECEDENCE + 1);
+//        registry.addInterceptor(userInterceptor)
+//                .addPathPatterns(USER_REQUIRED_PATH_PATTERNS)
+//                .order(Ordered.HIGHEST_PRECEDENCE + 1);
     }
 }
