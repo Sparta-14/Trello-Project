@@ -22,12 +22,19 @@ public class FileData {
     @Lob
     private byte[] fileData;
 
+    @ManyToOne
+    @JoinColumn(name = "card_id")
+    private CardEntity cardEntity;
+
     @Builder
-    public FileData(String name, String type, byte[] fileData){
+    public FileData(CardEntity card, String name, String type, byte[] fileData){
+        this.cardEntity = card;
         this.name = name;
         this.type = type;
         this.fileData = fileData;
     }
+
+
 
 
 }
