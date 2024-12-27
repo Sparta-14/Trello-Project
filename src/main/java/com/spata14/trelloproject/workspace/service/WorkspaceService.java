@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+
 @Service
 @RequiredArgsConstructor
 public class WorkspaceService {
@@ -31,7 +34,7 @@ public class WorkspaceService {
         Workspace workspace = new Workspace(dto.getName(), dto.getDescription());
         workspaceRepository.save(workspace);
 
-        //생성자 권한을 ALL 로 설정 (admin)
+        //생성자 역할을 ALL 로 설정 (admin)
         workspaceUserRepository.save(new WorkspaceUser(mySelf, workspace, UserRole.ALL));
 
         return WorkspaceResponseDto.toDto(workspace);
@@ -39,23 +42,40 @@ public class WorkspaceService {
 
     @Transactional
     public String addMember(Long id, InviteMemberRequestDto dto) {
-        User user = userService.findUserByEmail(dto.getEmail());
-        Workspace workspace = workspaceRepository.findByIdOrElseThrow(id);
 
-        if (isMember(user)) {
+        if (workspaceUserRepository.isMember(id, dto.getEmail())) {
             throw new IllegalArgumentException("이미 초대된 멤버입니다.");
         }
 
-        // 권한을 READ 로 설정
+        User user = userService.findUserByEmail(dto.getEmail());
+        Workspace workspace = workspaceRepository.findByIdOrElseThrow(id);
+
+        // 역할을 READ 로 설정
         workspaceUserRepository.save(new WorkspaceUser(user, workspace, UserRole.READ));
 
         return user.getEmail() + " 님을 워크스페이스에 초대하였습니다.";
     }
 
-    /**
-     * 워크스페이스의 멤버인지 체크
-     */
-    private boolean isMember(User user) {
-        return workspaceUserRepository.existsByUserId(user.getId());
+    public List<WorkspaceResponseDto> findAll() {
+        //본인이 들어가있는 워크스페이스 모두 조회
+        return workspaceUserRepository.findAllWorkspaceByUser(sessionUtils.getLoginUserEmail());
+    }
+
+    @Transactional
+    public WorkspaceResponseDto update(Long id, WorkspaceRequestDto dto) {
+        ////워크스페이스의 주인이 맞는지 체크
+        workspaceRepository.findByIdOrElseThrow(id);
+        Workspace workspace = workspaceRepository.findByIdOrElseThrow(id);
+        workspace.updateWorkspace(dto.getName(), dto.getDescription());
+        workspaceRepository.save(workspace);
+
+        return WorkspaceResponseDto.toDto(workspace);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        //워크스페이스의 주인이 맞는지 체크
+        workspaceRepository.findByIdOrElseThrow(id);
+        workspaceRepository.delete(workspaceRepository.findByIdOrElseThrow(id));
     }
 }

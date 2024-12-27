@@ -44,7 +44,9 @@ public class User extends BaseEntity {
         this.auth = auth;
     }
 
-    //TODO : 연관 관계
+    /**
+     * 연관 관계
+     */
     @OneToMany(mappedBy = "user")
     private List<WorkspaceUser> workspaces = new ArrayList<>();
 
