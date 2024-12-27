@@ -32,7 +32,7 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserAuth auth; // NONE, READ, ALL
+    private UserAuth auth;
 
     protected User() {}
 
@@ -44,14 +44,9 @@ public class User extends BaseEntity {
         this.auth = auth;
     }
 
-    /**
-     * 연관 관계
-     */
     @OneToMany(mappedBy = "user")
     private List<WorkspaceUser> workspaces = new ArrayList<>();
 
-
-    //편의 메서드
     public void deactivateUser() {
         this.status = UserStatus.DEACTIVATED;
     }

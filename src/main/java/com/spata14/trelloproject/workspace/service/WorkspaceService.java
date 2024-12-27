@@ -28,6 +28,11 @@ public class WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
     private final WorkspaceUserRepository workspaceUserRepository; // 중간 테이블
 
+    /**
+     * 워크스페이스 생성
+     * @param dto {@link WorkspaceRequestDto} - name(String), description(String)
+     * @return {@link WorkspaceResponseDto} - id(Long), name(String), description(String), createdAt(LocalDateTime), modifiedAt(LocalDateTime)
+     */
     @Transactional
     public WorkspaceResponseDto create(WorkspaceRequestDto dto) {
         User mySelf = userService.findUserByEmail(sessionUtils.getLoginUserEmail());
@@ -42,6 +47,12 @@ public class WorkspaceService {
         return WorkspaceResponseDto.toDto(workspace);
     }
 
+    /**
+     * 멤버 추가
+     * @param id 워크스페이스 ID
+     * @param dto {@link InviteMemberRequestDto} - email(String)
+     * @return String (user.getEmail() + " 님을 워크스페이스에 초대하였습니다.")
+     */
     @Transactional
     public String addMember(Long id, InviteMemberRequestDto dto) {
         // 워크스페이스 소유자 체크
@@ -61,11 +72,20 @@ public class WorkspaceService {
         return user.getEmail() + " 님을 워크스페이스에 초대하였습니다.";
     }
 
+    /**
+     * 본인이 포함된 워크스페이스 모두 조회
+     * @return {@link WorkspaceResponseDto} - id(Long), name(String), description(String), createdAt(LocalDateTime), modifiedAt(LocalDateTime)
+     */
     public List<WorkspaceResponseDto> findAll() {
-        //본인이 들어가있는 워크스페이스 모두 조회
         return workspaceUserRepository.findAllWorkspaceByUser(sessionUtils.getLoginUserEmail());
     }
 
+    /**
+     * 워크스페이스 수정
+     * @param id 워크스페이스 ID
+     * @param dto {@link WorkspaceRequestDto} - name(String), description(String)
+     * @return {@link WorkspaceResponseDto} - id(Long), name(String), description(String), createdAt(LocalDateTime), modifiedAt(LocalDateTime)
+     */
     @Transactional
     public WorkspaceResponseDto update(Long id, WorkspaceRequestDto dto) {
         WorkspaceUser workspaceUser = workspaceUserRepository.getWorkspaceOwnerOrElseThrow(sessionUtils.getLoginUserEmail(), UserRole.ALL, id);
@@ -76,6 +96,10 @@ public class WorkspaceService {
         return WorkspaceResponseDto.toDto(workspace);
     }
 
+    /**
+     * 워크스페이스 삭제
+     * @param id 워크스페이스 ID
+     */
     @Transactional
     public void delete(Long id) {
         WorkspaceUser workspaceUser = workspaceUserRepository.getWorkspaceOwnerOrElseThrow(sessionUtils.getLoginUserEmail(), UserRole.ALL, id);
