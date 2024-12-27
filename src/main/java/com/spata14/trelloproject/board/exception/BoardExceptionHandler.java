@@ -1,5 +1,6 @@
-package com.spata14.trelloproject.user.exception;
+package com.spata14.trelloproject.board.exception;
 
+import com.spata14.trelloproject.user.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class UserExceptionHandler {
+public class BoardExceptionHandler {
     @ExceptionHandler(UserException.class)
 
     public ResponseEntity<Map<String, Object>> handleCustomException(UserException ex) {
