@@ -42,10 +42,17 @@ public class CardController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDtos);
     }
 
-//    @PatchMapping("/{id}")
-//    public ResponseEntity<?> updateCard(@PathVariable("id") Long id) {
-//        cardService.updateCard(id);
-//    }
+    /*
+    카드 수정
+    Todo : 첨부파일, 담당자리스트까지 구현해야함.
+     */
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateCard(
+            @PathVariable("id") Long id,
+            @RequestBody CardRequestDto cardRequestDto) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(cardService.updateCard(id, cardRequestDto));
+    }
 
 
     /*
@@ -62,6 +69,13 @@ public class CardController {
 
     }
 
+    @GetMapping("/{id}/files")
+    public ResponseEntity<?> downloadFiles(
+            @PathVariable("id") Long id) {
+
+        return null;
+
+    }
 
 
 

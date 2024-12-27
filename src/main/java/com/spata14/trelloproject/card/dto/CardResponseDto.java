@@ -23,6 +23,15 @@ public class CardResponseDto {
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
 
+    public CardResponseDto(Card card) {
+        this.id = card.getId();
+        this.title = card.getTitle();
+        this.content = card.getContent();
+        this.endAt = card.getEndAt();
+        this.createAt = card.getCreatedAt();
+        this.modifiedAt = card.getModifiedAt();
+    }
+
     public CardResponseDto(Card card,  List<String> cardUsers) {
         this.id = card.getId();
         this.title = card.getTitle();

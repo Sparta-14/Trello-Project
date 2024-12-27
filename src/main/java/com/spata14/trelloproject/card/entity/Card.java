@@ -35,6 +35,12 @@ public class Card extends BaseEntity {
     @OneToMany(mappedBy = "card")
     private List<FileData> files;
 
+    public void updateCard(String title, String content, LocalDateTime endAt) {
+        this.title = title;
+        this.content = content;
+        this.endAt = endAt;
+    }
+
 //    public SearchCardResponseDto toDto() {
 //        return SearchCardResponseDto.builder()
 //                .id(this.id)

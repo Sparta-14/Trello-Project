@@ -46,6 +46,7 @@ public class CardService {
             for (Long user : cardRequestDto.getInChargeUsers()) {
                 User userById = userRepository.findByIdOrElseThrow(user);
                 inChargeUsers.add(userById.getName());
+
                 CardUser cardUser = new CardUser(card, userById);
                 cardUserRepository.save(cardUser);
             }
@@ -87,7 +88,10 @@ public class CardService {
     }
 
 
-//    public ResponseEntity updateCard(Long id) {
-//
-//    }
+    public CardResponseDto updateCard(Long id, CardRequestDto cardRequestDto) {
+        Card card = cardRepository.findById(id).orElseThrow();
+        card.updateCard(cardRequestDto.getTitle(), cardRequestDto.getContent(), cardRequestDto.getEndAt());
+        Card savedCard = cardRepository.save(card);
+        return new CardResponseDto(savedCard);
+    }
 }
