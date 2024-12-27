@@ -21,10 +21,7 @@ public class Notification {
     private Long workSpaceId;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
-    private String content;
+    private String message;
 
     @Column( nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isRead = false;
@@ -40,22 +37,20 @@ public class Notification {
     }
 
     @Builder
-    public Notification(EventType type, Long eventId, Long workSpaceId, String title, String content, Boolean isRead) {
+    public Notification(EventType type, Long eventId, Long workSpaceId, String message, Boolean isRead) {
         if (type == null || eventId == null) {
             throw new IllegalArgumentException("type and eventId cannot be null");
         }
         this.id = String.format("%s-%d", type.getType(), eventId); // id 생성 로직
         this.workSpaceId = workSpaceId;
-        this.title = title;
-        this.content = content;
+        this.message = message;
         this.isRead = isRead != null ? isRead : false; // null일 경우 기본값 false 설정
     }
 
     public NotificationResponseDto toDto() {
         return NotificationResponseDto.builder()
                 .id(this.id)
-                .title(this.title)
-                .content(this.content)
+                .message(this.message)
                 .createdAt(createdAt)
                 .build();
     }

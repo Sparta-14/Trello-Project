@@ -9,16 +9,14 @@ import java.time.LocalDateTime;
 public class NotificationResponseDto {
 
     private String id;
-    private String title;
-    private String content;
+    private String message;
     private LocalDateTime createdAt;
 
 
     @Builder
-    public NotificationResponseDto(String id, String title, String content, LocalDateTime createdAt) {
+    public NotificationResponseDto(String id, String message, LocalDateTime createdAt) {
         this.id = id;
-        this.title = title;
-        this.content = content;
+        this.message = message;
         this.createdAt = createdAt;
     }
 }
