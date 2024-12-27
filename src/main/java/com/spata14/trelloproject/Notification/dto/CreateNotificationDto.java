@@ -1,7 +1,7 @@
 package com.spata14.trelloproject.Notification.dto;
 
+import com.spata14.trelloproject.Notification.entity.enums.EventType;
 import com.spata14.trelloproject.Notification.entity.Notification;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter

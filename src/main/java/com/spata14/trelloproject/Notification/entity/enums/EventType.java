@@ -1,4 +1,4 @@
-package com.spata14.trelloproject.Notification.dto;
+package com.spata14.trelloproject.Notification.entity.enums;
 
 /**
  * Enumeration representing various event types in the system.

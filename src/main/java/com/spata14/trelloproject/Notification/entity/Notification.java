@@ -1,6 +1,6 @@
 package com.spata14.trelloproject.Notification.entity;
 
-import com.spata14.trelloproject.Notification.dto.EventType;
+import com.spata14.trelloproject.Notification.entity.enums.EventType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
