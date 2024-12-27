@@ -48,3 +48,17 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+def generated = 'src/main/generated'
+
+sourceSets {
+    main.java.srcDirs += [generated]
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.annotationProcessorPath = configurations.annotationProcessor
+}
+
+clean {
+    delete file(generated)
+}
