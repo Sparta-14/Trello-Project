@@ -1,5 +1,7 @@
-package com.spata14.trelloproject.user.exception;
+package com.spata14.trelloproject.common.exception;
 
+import com.spata14.trelloproject.user.exception.UserException;
+import com.spata14.trelloproject.workspace.exception.WorkspaceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,10 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-public class UserExceptionHandler {
+public class GlobalExceptionHandler {
     @ExceptionHandler(UserException.class)
-
-    public ResponseEntity<Map<String, Object>> handleCustomException(UserException ex) {
+    protected ResponseEntity<Map<String, Object>> handleUserException(UserException ex) {
         return getMapResponseEntity(ex.getUserErrorCode().toString(), ex.getMessage(), ex.getUserErrorCode().getHttpStatus());
     }
 
@@ -24,6 +25,11 @@ public class UserExceptionHandler {
                 fieldErrors.put(error.getField(), error.getDefaultMessage())
         );
         return ResponseEntity.badRequest().body(fieldErrors);
+    }
+
+    @ExceptionHandler(WorkspaceException.class)
+    protected ResponseEntity<Map<String, Object>> handleWorkspaceException(WorkspaceException ex) {
+        return getMapResponseEntity(ex.getWorkspaceErrorCode().toString(), ex.getMessage(), ex.getWorkspaceErrorCode().getHttpStatus());
     }
 
     private static ResponseEntity<Map<String, Object>> getMapResponseEntity(String errorName, String errorMessage, HttpStatus httpStatus) {
