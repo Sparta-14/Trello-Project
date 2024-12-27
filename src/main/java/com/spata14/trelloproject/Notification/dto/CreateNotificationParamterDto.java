@@ -5,7 +5,7 @@ import com.spata14.trelloproject.Notification.entity.Notification;
 import lombok.Getter;
 
 @Getter
-public class CreateNotificationDto {
+public class CreateNotificationParamterDto {
 
     private EventType type;
     private Long eventId;
