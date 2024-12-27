@@ -42,16 +42,19 @@ public class WorkspaceService {
 
     @Transactional
     public String addMember(Long id, InviteMemberRequestDto dto) {
+        // 워크스페이스 소유자 체크
+        WorkspaceUser workspaceUser = workspaceUserRepository.getWorkspaceOwnerOrElseThrow(sessionUtils.getLoginUserEmail(), UserRole.ALL, id);
 
+        // 초대 중복 방지
         if (workspaceUserRepository.isMember(id, dto.getEmail())) {
             throw new IllegalArgumentException("이미 초대된 멤버입니다.");
         }
 
+        // 멤버로 추가할 유저
         User user = userService.findUserByEmail(dto.getEmail());
-        Workspace workspace = workspaceRepository.findByIdOrElseThrow(id);
 
         // 역할을 READ 로 설정
-        workspaceUserRepository.save(new WorkspaceUser(user, workspace, UserRole.READ));
+        workspaceUserRepository.save(new WorkspaceUser(user, workspaceUser.getWorkspace(), UserRole.READ));
 
         return user.getEmail() + " 님을 워크스페이스에 초대하였습니다.";
     }
@@ -63,9 +66,8 @@ public class WorkspaceService {
 
     @Transactional
     public WorkspaceResponseDto update(Long id, WorkspaceRequestDto dto) {
-        ////워크스페이스의 주인이 맞는지 체크
-        workspaceRepository.findByIdOrElseThrow(id);
-        Workspace workspace = workspaceRepository.findByIdOrElseThrow(id);
+        WorkspaceUser workspaceUser = workspaceUserRepository.getWorkspaceOwnerOrElseThrow(sessionUtils.getLoginUserEmail(), UserRole.ALL, id);
+        Workspace workspace = workspaceUser.getWorkspace();
         workspace.updateWorkspace(dto.getName(), dto.getDescription());
         workspaceRepository.save(workspace);
 
@@ -74,8 +76,7 @@ public class WorkspaceService {
 
     @Transactional
     public void delete(Long id) {
-        //워크스페이스의 주인이 맞는지 체크
-        workspaceRepository.findByIdOrElseThrow(id);
-        workspaceRepository.delete(workspaceRepository.findByIdOrElseThrow(id));
+        WorkspaceUser workspaceUser = workspaceUserRepository.getWorkspaceOwnerOrElseThrow(sessionUtils.getLoginUserEmail(), UserRole.ALL, id);
+        workspaceRepository.delete(workspaceUser.getWorkspace());
     }
 }
