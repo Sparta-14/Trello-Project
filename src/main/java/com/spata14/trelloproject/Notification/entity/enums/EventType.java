@@ -7,25 +7,10 @@ package com.spata14.trelloproject.Notification.entity.enums;
  * </p>
  */
 public enum EventType {
-
-    /**
-     * Represents an event related to a workspace.
-     */
     WORKSPACE("workspace"),
-
-    /**
-     * Represents an event related to a card.
-     */
     CARD("card"),
-
-    /**
-     * Represents an event related to a comment.
-     */
     COMMENT("comment");
 
-    /**
-     * The string identifier associated with the event type.
-     */
     private String type;
 
     /**
