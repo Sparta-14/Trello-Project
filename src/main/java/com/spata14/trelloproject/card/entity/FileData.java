@@ -22,13 +22,13 @@ public class FileData {
     @Lob
     private byte[] fileData;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "card_id")
-    private CardEntity cardEntity;
+    private Card card;
 
     @Builder
-    public FileData(CardEntity card, String name, String type, byte[] fileData){
-        this.cardEntity = card;
+    public FileData(Card card, String name, String type, byte[] fileData){
+        this.card = card;
         this.name = name;
         this.type = type;
         this.fileData = fileData;

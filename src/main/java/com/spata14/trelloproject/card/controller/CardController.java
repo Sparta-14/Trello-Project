@@ -4,7 +4,6 @@ import com.spata14.trelloproject.card.dto.CardRequestDto;
 import com.spata14.trelloproject.card.dto.CardResponseDto;
 import com.spata14.trelloproject.card.service.CardService;
 import com.spata14.trelloproject.card.service.FileStorageService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,24 +24,45 @@ public class CardController {
     private final CardService cardService;
     private final FileStorageService fileService;
 
+    /*
+    카드 생성
+     */
     @PostMapping
-    @Transactional
-    public ResponseEntity<?> createCard(
-            @RequestPart(value = "cardRequestDto", required = false) CardRequestDto cardRequestDto,
-            @RequestPart(value = "file", required = false) List<MultipartFile> multipartFile
-            ) throws IOException {
-
-        CardResponseDto card = cardService.createCard(cardRequestDto, multipartFile);
-
-        return new ResponseEntity<>(card,  HttpStatus.OK);
+    public ResponseEntity<?> createCard(@RequestBody CardRequestDto cardRequestDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(cardService.createCard(cardRequestDto));
     }
 
+    /*
+    카드 전체 조회
+     */
     @GetMapping()
     public ResponseEntity<?> readAllCards(){
         List<CardResponseDto> responseDtos = cardService.readAllCard();
 
         return ResponseEntity.status(HttpStatus.OK).body(responseDtos);
     }
+
+//    @PatchMapping("/{id}")
+//    public ResponseEntity<?> updateCard(@PathVariable("id") Long id) {
+//        cardService.updateCard(id);
+//    }
+
+
+    /*
+    파일 업로드
+     */
+    @PostMapping("/{id}/files")
+    public ResponseEntity<?> uploadFiles(
+            @PathVariable(value = "id") Long id,
+            @RequestPart(value = "files") List<MultipartFile> files) throws IOException {
+        List<String> fileList = cardService.uploadFiles(id, files);
+        log.info(fileList.get(0));
+
+        return ResponseEntity.status(HttpStatus.OK).body(fileList + "가 업로드 되었습니다.");
+
+    }
+
+
 
 
 }
