@@ -9,6 +9,8 @@ import com.spata14.trelloproject.workspace.WorkspaceUser;
 import com.spata14.trelloproject.workspace.dto.InviteMemberRequestDto;
 import com.spata14.trelloproject.workspace.dto.WorkspaceRequestDto;
 import com.spata14.trelloproject.workspace.dto.WorkspaceResponseDto;
+import com.spata14.trelloproject.workspace.exception.WorkspaceErrorCode;
+import com.spata14.trelloproject.workspace.exception.WorkspaceException;
 import com.spata14.trelloproject.workspace.repository.WorkspaceRepository;
 import com.spata14.trelloproject.workspace.repository.WorkspaceUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +49,7 @@ public class WorkspaceService {
 
         // 초대 중복 방지
         if (workspaceUserRepository.isMember(id, dto.getEmail())) {
-            throw new IllegalArgumentException("이미 초대된 멤버입니다.");
+            throw new WorkspaceException(WorkspaceErrorCode.WORKSPACE_DUPLICATED_MEMBER);
         }
 
         // 멤버로 추가할 유저

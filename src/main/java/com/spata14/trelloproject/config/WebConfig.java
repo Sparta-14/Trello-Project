@@ -2,7 +2,6 @@ package com.spata14.trelloproject.config;
 
 import com.spata14.trelloproject.config.filter.AuthFilter;
 import com.spata14.trelloproject.config.interceptor.AdminInterceptor;
-import com.spata14.trelloproject.config.interceptor.UserInterceptor;
 import com.spata14.trelloproject.user.repository.UserRepository;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;

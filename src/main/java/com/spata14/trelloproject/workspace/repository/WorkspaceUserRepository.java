@@ -2,6 +2,8 @@ package com.spata14.trelloproject.workspace.repository;
 
 import com.spata14.trelloproject.user.UserRole;
 import com.spata14.trelloproject.workspace.WorkspaceUser;
+import com.spata14.trelloproject.workspace.exception.WorkspaceErrorCode;
+import com.spata14.trelloproject.workspace.exception.WorkspaceException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +23,6 @@ public interface WorkspaceUserRepository extends JpaRepository<WorkspaceUser, Lo
     Optional<WorkspaceUser> getWorkspaceOwner(@Param("email") String email, @Param("userRole")UserRole userRole, @Param("workspaceId") Long workspaceId);
 
     default WorkspaceUser getWorkspaceOwnerOrElseThrow(String email, UserRole userRole, Long workspaceId) {
-        return getWorkspaceOwner(email, userRole, workspaceId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "권한이 없습니다."));
+        return getWorkspaceOwner(email, userRole, workspaceId).orElseThrow(() -> new WorkspaceException(WorkspaceErrorCode.WORKSPACE_UNAUTHORIZED));
     }
 }
