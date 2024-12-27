@@ -1,5 +1,6 @@
 package com.spata14.trelloproject.Notification.entity;
 
+import com.spata14.trelloproject.Notification.dto.NotificationResponseDto;
 import com.spata14.trelloproject.Notification.entity.enums.EventType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -25,7 +26,7 @@ public class Notification {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+    @Column( nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isRead = false;
 
     @Column(nullable = false, updatable = false)
@@ -48,5 +49,18 @@ public class Notification {
         this.title = title;
         this.content = content;
         this.isRead = isRead != null ? isRead : false; // null일 경우 기본값 false 설정
+    }
+
+    public NotificationResponseDto toDto() {
+        return NotificationResponseDto.builder()
+                .id(this.id)
+                .title(this.title)
+                .content(this.content)
+                .createdAt(createdAt)
+                .build();
+    }
+
+    public void updateIsRead(Boolean isRead) {
+        this.isRead = isRead;
     }
 }
