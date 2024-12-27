@@ -5,14 +5,12 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class NotificationResponseDto {
 
     private String id;
-
     private String title;
-
     private String content;
-
     private LocalDateTime createdAt;
 
 
