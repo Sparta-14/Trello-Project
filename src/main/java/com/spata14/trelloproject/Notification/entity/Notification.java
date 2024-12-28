@@ -1,6 +1,5 @@
 package com.spata14.trelloproject.Notification.entity;
 
-import com.spata14.trelloproject.Notification.dto.NotificationResponseDto;
 import com.spata14.trelloproject.Notification.entity.enums.EventType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -39,17 +38,5 @@ public class Notification {
         this.message = message;
         this.isRead = isRead != null ? isRead : false; // null일 경우 기본값 false 설정
         this.createdAt = LocalDateTime.now();
-    }
-
-    public NotificationResponseDto toDto() {
-        return NotificationResponseDto.builder()
-                .id(this.id)
-                .message(this.message)
-                .createdAt(createdAt)
-                .build();
-    }
-
-    public void updateIsRead(Boolean isRead) {
-        this.isRead = isRead;
     }
 }

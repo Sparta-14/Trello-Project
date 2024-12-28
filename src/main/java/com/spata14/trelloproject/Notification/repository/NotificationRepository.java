@@ -16,7 +16,4 @@ public interface NotificationRepository extends JpaRepository<Notification, Stri
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 알림입니다. id = " + id)
         );
     }
-
-    // SELECT * FROM notification WHERE is_read = false ODERBY created_at DESC;
-    List<Notification> findAllByIsReadFalseOrderByCreatedAtDesc();
 }
