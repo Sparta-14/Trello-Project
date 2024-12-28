@@ -29,13 +29,6 @@ public class Notification {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @PrePersist
-    protected void onCreate() {
-        if (this.createdAt == null) {
-            this.createdAt = LocalDateTime.now();
-        }
-    }
-
     @Builder
     public Notification(EventType type, Long eventId, Long workSpaceId, String message, Boolean isRead) {
         if (type == null || eventId == null) {
@@ -45,6 +38,7 @@ public class Notification {
         this.workSpaceId = workSpaceId;
         this.message = message;
         this.isRead = isRead != null ? isRead : false; // null일 경우 기본값 false 설정
+        this.createdAt = LocalDateTime.now();
     }
 
     public NotificationResponseDto toDto() {

@@ -1,11 +1,6 @@
 package com.spata14.trelloproject.Notification.entity.enums;
 
-/**
- * Enumeration representing various event types in the system.
- * <p>
- * Each event type is associated with a string identifier.
- * </p>
- */
+
 public enum EventType {
     WORKSPACE("workspace"),
     CARD("card"),
@@ -14,18 +9,18 @@ public enum EventType {
     private String type;
 
     /**
-     * Constructs an {@link EventType} with the specified string identifier.
+     * 지정된 문자열 식별자를 사용하여 {@link EventType}을 생성
      *
-     * @param type the string identifier for the event type
+     * @param type 이벤트 유형의 문자열 식별자
      */
     EventType(String type) {
         this.type = type;
     }
 
     /**
-     * Returns the string identifier of the event type.
+     * 이벤트 유형의 문자열 식별자 반환
      *
-     * @return the string identifier of the event type
+     * @return 이벤트 유형의 문자열 식별자
      */
     public String getType() {
         return type;
