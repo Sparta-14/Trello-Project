@@ -1,7 +1,7 @@
 package com.spata14.trelloproject.search.service;
 
-import com.spata14.trelloproject.card.Card;
-import com.spata14.trelloproject.card.CardRepository;
+import com.spata14.trelloproject.card.entity.Card;
+import com.spata14.trelloproject.card.repository.CardRepository;
 import com.spata14.trelloproject.search.dto.SearchCardResponseDto;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;

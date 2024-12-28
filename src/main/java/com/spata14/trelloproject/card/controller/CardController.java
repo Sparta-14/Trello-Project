@@ -2,11 +2,14 @@ package com.spata14.trelloproject.card.controller;
 
 import com.spata14.trelloproject.card.dto.CardRequestDto;
 import com.spata14.trelloproject.card.dto.CardResponseDto;
+import com.spata14.trelloproject.card.dto.FileDownloadDto;
+import com.spata14.trelloproject.card.entity.FileData;
 import com.spata14.trelloproject.card.service.CardService;
 import com.spata14.trelloproject.card.service.FileStorageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -63,18 +66,22 @@ public class CardController {
             @PathVariable(value = "id") Long id,
             @RequestPart(value = "files") List<MultipartFile> files) throws IOException {
         List<String> fileList = cardService.uploadFiles(id, files);
-        log.info(fileList.get(0));
 
         return ResponseEntity.status(HttpStatus.OK).body(fileList + "가 업로드 되었습니다.");
 
     }
 
+    /*
+    파일 다운로드
+     */
     @GetMapping("/{id}/files")
-    public ResponseEntity<?> downloadFiles(
-            @PathVariable("id") Long id) {
-
-        return null;
-
+    public ResponseEntity<?> downloadFiles(@PathVariable("id") Long id) {
+        for (FileDownloadDto downloadFile : cardService.downloadFiles(id)) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.valueOf(downloadFile.getType()))
+                    .body(downloadFile.getBytes());
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("?.?");
     }
 
 
