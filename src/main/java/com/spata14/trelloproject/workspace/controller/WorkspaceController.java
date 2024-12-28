@@ -17,6 +17,9 @@ import java.util.List;
 public class WorkspaceController {
     private final WorkspaceService workspaceService;
 
+    /**
+     * 워크스페이스 조회
+     */
     @GetMapping
     public ResponseEntity<List<WorkspaceResponseDto>> viewAllWorkspace() {
         return new ResponseEntity<>(workspaceService.findAll(), HttpStatus.OK);
