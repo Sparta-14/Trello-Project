@@ -15,22 +15,34 @@ import org.springframework.web.bind.annotation.*;
 public class AdminWorkspaceController {
     private final WorkspaceService workspaceService;
 
+    /**
+     * 워크스페이스 생성
+     */
     @PostMapping
     public ResponseEntity<WorkspaceResponseDto> createWorkspace(@RequestBody WorkspaceRequestDto dto) {
         return new ResponseEntity<>(workspaceService.create(dto), HttpStatus.CREATED);
     }
 
+    /**
+     * 멤버 추가
+     */
     @PostMapping("/{id}")
     public ResponseEntity<String> addMember(@PathVariable Long id, @RequestBody InviteMemberRequestDto dto) {
         String result = workspaceService.addMember(id, dto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    /**
+     * 워크스페이스 수정
+     */
     @PatchMapping("/{id}")
     public ResponseEntity<WorkspaceResponseDto> updateWorkspace(@PathVariable Long id, @RequestBody WorkspaceRequestDto dto) {
         return new ResponseEntity<>(workspaceService.update(id, dto), HttpStatus.OK);
     }
 
+    /**
+     * 워크스페이스 삭제
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkspace(@PathVariable Long id) {
         workspaceService.delete(id);
