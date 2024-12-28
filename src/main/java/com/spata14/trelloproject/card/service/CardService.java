@@ -2,6 +2,7 @@ package com.spata14.trelloproject.card.service;
 
 import com.spata14.trelloproject.card.dto.CardRequestDto;
 import com.spata14.trelloproject.card.dto.CardResponseDto;
+import com.spata14.trelloproject.card.dto.FileDownloadDto;
 import com.spata14.trelloproject.card.entity.Card;
 import com.spata14.trelloproject.card.entity.CardUser;
 import com.spata14.trelloproject.card.entity.FileData;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -61,6 +63,7 @@ public class CardService {
         List<String> filesName = new ArrayList<>();
 
         for (MultipartFile file : files) {
+            log.info("ssss uploadfile Name : {} ", file.getName());
             filesName.add(file.getName());
             savedFiles.add(fileStorageRepository.save(
                     FileData.builder()
@@ -93,5 +96,16 @@ public class CardService {
         card.updateCard(cardRequestDto.getTitle(), cardRequestDto.getContent(), cardRequestDto.getEndAt());
         Card savedCard = cardRepository.save(card);
         return new CardResponseDto(savedCard);
+    }
+
+    public List<FileDownloadDto>  downloadFiles(Long id) {
+        List<FileDownloadDto> fileDownloadDtos = new ArrayList<>();
+        for (FileData file : fileStorageRepository.findAllByCardId(id)) {
+            log.info("downloadFiles > file Name :{}",file.getName());
+            byte[] decomporess = FileUtils.decompressFile(file.getFileData());
+            String type = file.getType();
+            fileDownloadDtos.add(new FileDownloadDto(decomporess,type));
+        }
+        return fileDownloadDtos;
     }
 }
