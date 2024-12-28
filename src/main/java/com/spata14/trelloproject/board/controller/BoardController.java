@@ -3,6 +3,7 @@ package com.spata14.trelloproject.board.controller;
 import com.spata14.trelloproject.board.dto.BoardRequestDto;
 import com.spata14.trelloproject.board.dto.BoardResponseDto;
 import com.spata14.trelloproject.board.service.BoardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class BoardController {
     // 보드 생성
     @PostMapping
     public ResponseEntity<BoardResponseDto> createBoard(@PathVariable Long workspaceId,
-                                                        @RequestBody BoardRequestDto dto,
+                                                        @Valid @RequestBody BoardRequestDto dto,
                                                         @SessionAttribute(value = "USER_AUTH") String email) {
 
         BoardResponseDto response = boardService.create(dto, workspaceId, email);
@@ -48,7 +49,7 @@ public class BoardController {
     @PutMapping("/{boardId}")
     public ResponseEntity<BoardResponseDto> updateBoard(@PathVariable Long workspaceId,
                                                         @PathVariable Long boardId,
-                                                        @RequestBody BoardRequestDto dto,
+                                                        @Valid @RequestBody BoardRequestDto dto,
                                                         @SessionAttribute(value = "USER_AUTH") String email) {
 
         BoardResponseDto response = boardService.update(boardId, dto, email);
