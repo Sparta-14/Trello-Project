@@ -2,6 +2,8 @@ package com.spata14.trelloproject.card.entity;
 
 
 import com.spata14.trelloproject.common.BaseEntity;
+import com.spata14.trelloproject.search.dto.SearchCardResponseDto;
+import com.spata14.trelloproject.user.User;
 import com.spata14.trelloproject.workspace.WorkspaceUser;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,6 +31,10 @@ public class Card extends BaseEntity {
     @Column
     private LocalDateTime endAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
     @OneToMany(mappedBy = "card")
     private List<CardUser> cardUser;
 
@@ -41,13 +47,13 @@ public class Card extends BaseEntity {
         this.endAt = endAt;
     }
 
-//    public SearchCardResponseDto toDto() {
-//        return SearchCardResponseDto.builder()
-//                .id(this.id)
-//                .userId(this.userId)
-//                .title(this.title)
-//                .build();
-//    }
+    public SearchCardResponseDto toDto() {
+        return SearchCardResponseDto.builder()
+                .id(this.id)
+                .userId(this.user.getId())
+                .title(this.title)
+                .build();
+    }
 
 
 }

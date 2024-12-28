@@ -1,6 +1,6 @@
 package com.spata14.trelloproject.search.repository;
 
-import com.spata14.trelloproject.card.Card;
+import com.spata14.trelloproject.card.entity.Card;
 import jakarta.annotation.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -3,7 +3,7 @@ package com.spata14.trelloproject.search.repository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.spata14.trelloproject.card.Card;
+import com.spata14.trelloproject.card.entity.Card;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 
-import static com.spata14.trelloproject.card.QCard.card;
+import static com.spata14.trelloproject.card.entity.QCard.card;
 import static org.springframework.util.StringUtils.hasText;
 
 @RequiredArgsConstructor
