@@ -1,5 +1,6 @@
 package com.spata14.trelloproject.user.controller;
 
+import com.spata14.trelloproject.user.dto.TokenRequestDto;
 import com.spata14.trelloproject.user.dto.UserRequestDto;
 import com.spata14.trelloproject.user.dto.UserResponseDto;
 import com.spata14.trelloproject.user.service.UserService;
@@ -65,4 +66,16 @@ public class UserController {
     public ResponseEntity<UserResponseDto> viewUser(@PathVariable Long id) {
         return new ResponseEntity<>(userService.findUser(id), HttpStatus.OK);
     }
+
+    /**
+     * 토큰 등록
+     */
+    @PostMapping("/{id}/token")
+    public ResponseEntity<String>  registerToken(
+            @PathVariable Long id,
+            @RequestBody TokenRequestDto dto) {
+        userService.registerToken(id, dto);
+        return ResponseEntity.ok().body("토큰이 정상적으로 등록 되었습니다.");
+    }
+
 }

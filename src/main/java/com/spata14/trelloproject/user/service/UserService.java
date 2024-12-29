@@ -3,12 +3,15 @@ package com.spata14.trelloproject.user.service;
 import com.spata14.trelloproject.common.SessionNames;
 import com.spata14.trelloproject.common.util.PasswordEncoder;
 import com.spata14.trelloproject.common.util.SessionUtils;
+import com.spata14.trelloproject.user.Token;
 import com.spata14.trelloproject.user.User;
 import com.spata14.trelloproject.user.UserStatus;
+import com.spata14.trelloproject.user.dto.TokenRequestDto;
 import com.spata14.trelloproject.user.dto.UserRequestDto;
 import com.spata14.trelloproject.user.dto.UserResponseDto;
 import com.spata14.trelloproject.user.exception.UserErrorCode;
 import com.spata14.trelloproject.user.exception.UserException;
+import com.spata14.trelloproject.user.repository.TokenRepository;
 import com.spata14.trelloproject.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final SessionUtils sessionUtils;
 
     /**
@@ -101,5 +105,11 @@ public class UserService {
         if (!PasswordEncoder.matches(password, user.getPassword())) {
             throw new UserException(UserErrorCode.PASSWORD_INCORRECT);
         }
+    }
+
+    public void registerToken(Long userId, TokenRequestDto dto) {
+        User findUser = userRepository.findByIdOrElseThrow(userId);
+        Token token = new Token(findUser, dto.getToken());
+        tokenRepository.save(token);
     }
 }
