@@ -1,6 +1,7 @@
 package com.spata14.trelloproject.workspace.service;
 
 import com.spata14.trelloproject.common.util.SessionUtils;
+import com.spata14.trelloproject.user.Token;
 import com.spata14.trelloproject.user.User;
 import com.spata14.trelloproject.user.UserRole;
 import com.spata14.trelloproject.user.service.UserService;
@@ -77,5 +78,10 @@ public class WorkspaceService {
         //워크스페이스의 주인이 맞는지 체크
         workspaceRepository.findByIdOrElseThrow(id);
         workspaceRepository.delete(workspaceRepository.findByIdOrElseThrow(id));
+    }
+
+    // 워크스페이스 내부 유저들의 토큰 조회
+    public List<Token> getAllUserTokens(Long workspaceId) {
+        return workspaceUserRepository.findTokensByWorkspaceId(workspaceId);
     }
 }
