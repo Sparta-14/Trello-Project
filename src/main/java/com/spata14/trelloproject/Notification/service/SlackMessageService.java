@@ -17,10 +17,11 @@ public class SlackMessageService {
 
         //  토큰 조작
         String SlackbaseUrl = "https://hooks.slack.com/services/";
-        String token = "토큰 정보";
-        String webhookUrl = createWebhookUrl(SlackbaseUrl, token);
+        String token = "";
+        String webhookUrl = createWebhookUrl(SlackbaseUrl + "T086SCHNTRA/B086HC56C22/YkdmkRbSZgwKvq1Of6SVY0x5", token);
 
 //        String webhookUrl = "https://hooks.slack.com/services/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";
+        //String webhookUrl = "https://hooks.slack.com/services/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";
 
 
         webClient.post()

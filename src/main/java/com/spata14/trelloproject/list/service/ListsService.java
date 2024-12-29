@@ -5,7 +5,7 @@ import com.spata14.trelloproject.board.repository.BoardRepository;
 import com.spata14.trelloproject.list.entity.Lists;
 import com.spata14.trelloproject.list.repository.ListsRepository;
 import com.spata14.trelloproject.user.User;
-import com.spata14.trelloproject.user.UserRole;
+import com.spata14.trelloproject.workspace.WorkspaceMemberRole;
 import com.spata14.trelloproject.user.repository.UserRepository;
 import com.spata14.trelloproject.workspace.WorkspaceUser;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class ListsService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("해당 유저는 워크스페이스의 멤버가 아닙니다"));
 
-        if (workspaceUser.getUserRole() == UserRole.READ) {
+        if (workspaceUser.getWorkspaceMemberRole() == WorkspaceMemberRole.READ_ONLY) {
             throw new RuntimeException("읽기 권한을 가진 유저는 리스트 생성이 불가능합니다");
         }
 
@@ -58,7 +58,7 @@ public class ListsService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("해당 유저는 워크스페이스의 멤버가 아닙니다"));
 
-        if (workspaceUser.getUserRole() == UserRole.READ) {
+        if (workspaceUser.getWorkspaceMemberRole() == WorkspaceMemberRole.READ_ONLY) {
             throw new RuntimeException("읽기 권한을 가진 유저는 리스트 수정이 불가능합니다");
         }
 
@@ -82,7 +82,7 @@ public class ListsService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("해당 유저는 워크스페이스의 멤버가 아닙니다"));
 
-        if (workspaceUser.getUserRole() == UserRole.READ) {
+        if (workspaceUser.getWorkspaceMemberRole() == WorkspaceMemberRole.READ_ONLY) {
             throw new RuntimeException("읽기 권한을 가진 유저는 리스트 삭제가 불가능합니다");
         }
 
