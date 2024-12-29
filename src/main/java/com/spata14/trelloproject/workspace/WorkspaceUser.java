@@ -1,7 +1,6 @@
 package com.spata14.trelloproject.workspace;
 
 import com.spata14.trelloproject.user.User;
-import com.spata14.trelloproject.user.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -14,7 +13,7 @@ public class WorkspaceUser {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private WorkspaceMemberRole workspaceMemberRole;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -24,10 +23,10 @@ public class WorkspaceUser {
     @JoinColumn(name = "workspace_id", nullable = false)
     private Workspace workspace;
 
-    public WorkspaceUser(User user, Workspace workspace, UserRole userRole) {
+    public WorkspaceUser(User user, Workspace workspace, WorkspaceMemberRole workspaceMemberRole) {
         this.user = user;
         this.workspace = workspace;
-        this.userRole = userRole;
+        this.workspaceMemberRole = workspaceMemberRole;
     }
 
     protected WorkspaceUser() {}
