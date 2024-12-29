@@ -1,5 +1,6 @@
 package com.spata14.trelloproject.workspace.controller;
 
+import com.spata14.trelloproject.Notification.facade.NotificationServiceFacade;
 import com.spata14.trelloproject.workspace.dto.InviteMemberRequestDto;
 import com.spata14.trelloproject.workspace.dto.WorkspaceRequestDto;
 import com.spata14.trelloproject.workspace.dto.WorkspaceResponseDto;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WorkspaceController {
     private final WorkspaceService workspaceService;
+    private final NotificationServiceFacade notificationServiceFacade;
 
     /**
      * 멤버 추가
@@ -23,6 +25,7 @@ public class WorkspaceController {
     @PostMapping("/{id}")
     public ResponseEntity<String> addMember(@PathVariable Long id, @RequestBody InviteMemberRequestDto dto) {
         String result = workspaceService.addMember(id, dto);
+        notificationServiceFacade.sendSlackMessageForProcessingOutcome(id, null, null);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

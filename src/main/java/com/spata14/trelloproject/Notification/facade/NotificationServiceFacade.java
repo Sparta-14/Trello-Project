@@ -36,7 +36,7 @@ public class NotificationServiceFacade {
      * @param commentId
      */
 
-    public void sendSlackMessageForProcessingOutcome(Long userId, Long workspaceId, @Nullable Long cardId, @Nullable  Long commentId) {
+    public void sendSlackMessageForProcessingOutcome(Long workspaceId, @Nullable Long cardId, @Nullable  Long commentId) {
         EventResult eventResult = eventMapperUtil.identifyEventTypeAndCreateMessage(workspaceId, cardId, commentId);
 
         // 메세지 생성
