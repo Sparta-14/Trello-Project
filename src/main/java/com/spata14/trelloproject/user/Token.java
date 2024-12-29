@@ -15,14 +15,15 @@ public class Token extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private String token;
 
-    public Token(Long userId, String token) {
-        this.userId = userId;
+    public Token(User user, String token) {
+        this.user = user;
         this.token = token;
     }
 }

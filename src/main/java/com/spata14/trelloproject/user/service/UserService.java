@@ -79,7 +79,8 @@ public class UserService {
     }
 
     public void registerToken(Long userId, TokenRequestDto dto) {
-        Token token = new Token(userId, dto.getToken());
+        User findUser = userRepository.findByIdOrElseThrow(userId);
+        Token token = new Token(findUser, dto.getToken());
         tokenRepository.save(token);
     }
 }
