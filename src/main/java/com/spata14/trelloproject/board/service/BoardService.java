@@ -47,7 +47,7 @@ public class BoardService {
         // 권한 검사: READ 권한은 보드 생성 불가
         if (workspaceUser.getWorkspaceMemberRole() == WorkspaceMemberRole.READ_ONLY) {
             throw new BoardException(BoardErrorCode.PERMISSION_DENIED);
-
+        }
         // 보드 제목 유효성 검사
         if (dto.getTitle() == null || dto.getTitle().trim().isEmpty()) {
             throw new BoardException(BoardErrorCode.TITLE_EMPTY);
@@ -98,6 +98,7 @@ public class BoardService {
         // 권한 검사: READ 권한은 보드 수정 불가
         if (workspaceUser.getWorkspaceMemberRole() == WorkspaceMemberRole.READ_ONLY) {
             throw new BoardException(BoardErrorCode.PERMISSION_DENIED);
+        }
 
         // 보드 제목 유효성 검사
         if (dto.getTitle() == null || dto.getTitle().trim().isEmpty()) {
