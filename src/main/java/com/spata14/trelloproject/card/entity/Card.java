@@ -35,16 +35,17 @@ public class Card extends BaseEntity {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card",cascade = CascadeType.ALL)
     private List<CardUser> cardUser;
 
-    @OneToMany(mappedBy = "card")
+    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
     private List<FileData> files;
 
     public void updateCard(String title, String content, LocalDateTime endAt) {
         this.title = title;
         this.content = content;
         this.endAt = endAt;
+
     }
 
     public SearchCardResponseDto toDto() {

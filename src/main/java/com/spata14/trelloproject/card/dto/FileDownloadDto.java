@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileDownloadDto {
+    private String name;
     private byte [] bytes;
     private String type;
 
