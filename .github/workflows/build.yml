@@ -48,6 +48,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: . # 지정하지 않으면 기본적으로 현재 디렉토리가 빌드 컨텍스트로 사용됩니다.
-          file: ./docker/Dockerfile
+          file: ./Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_TAG_NAME }}:latest
