@@ -1,6 +1,10 @@
 package com.spata14.trelloproject.workspace.repository;
 
 
+import com.spata14.trelloproject.Notification.exception.NotificationErrorCode;
+import com.spata14.trelloproject.Notification.exception.NotificationException;
+import com.spata14.trelloproject.user.exception.UserErrorCode;
+import com.spata14.trelloproject.user.exception.UserException;
 import com.spata14.trelloproject.workspace.WorkspaceMemberRole;
 import com.spata14.trelloproject.user.Token;
 import com.spata14.trelloproject.workspace.WorkspaceUser;
@@ -38,7 +42,13 @@ public interface WorkspaceUserRepository extends JpaRepository<WorkspaceUser, Lo
             "FROM WorkspaceUser wu " +
             "JOIN Token t ON wu.user.id = t.user.id " +
             "WHERE wu.workspace.id = :workspaceId")
-    List<Token> findTokensByWorkspaceId(@Param("workspaceId") Long workspaceId);
+    Optional<List<Token>> findTokensByWorkspaceId(@Param("workspaceId") Long workspaceId);
+
+    default List<Token> indTokensByWorkspaceIdOrElseThrow(Long workspaceId) {
+        return findTokensByWorkspaceId(workspaceId).orElseThrow(
+                () -> new NotificationException(NotificationErrorCode.WORKSPACE_ERROR_CODE)
+        );
+    }
 }
 
 
