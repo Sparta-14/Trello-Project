@@ -2,7 +2,7 @@ name: docker multi-stage build
 
 on:
   push:
-    branches: [main, develop] # 해당 branch에 push 되었을 경우
+    branches: [main, develop, feature/cicd] # 해당 branch에 push 되었을 경우
 
   # https://github.com/marketplace/actions/build-and-push-docker-images
 jobs:
@@ -25,6 +25,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
           file: ./Dockerfile
           push: true
           tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_TAG_NAME }}:latest
