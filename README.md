@@ -13,7 +13,7 @@ https://www.notion.so/teamsparta/14-1582dc3ef51481b3908df5f7fdc77244
 - 박지영 / Github : [https://github.com/thinkingTara](https://github.com/thinkingTara)
   - 카드, 파일 기능 개발
 - 이경섭 / Github : [https://github.com/gyungsubLee](https://github.com/gyungsubLee)
-  - 검색, 알림 기능 개
+  - 검색, 알림 기능 개발
 - 정건우 / Github : [https://github.com/jgw1202](https://github.com/jgw1202)
   - 보드, 리스트, 댓글 기능 개발
 
