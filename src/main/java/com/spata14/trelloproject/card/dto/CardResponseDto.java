@@ -18,8 +18,12 @@ public class CardResponseDto {
     private String title;
     private String content;
     private LocalDateTime endAt;
+
     private List<String> filesName;
     private List<String> cardUsers;
+
+    private String writeUser;
+
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
 
@@ -28,8 +32,10 @@ public class CardResponseDto {
         this.title = card.getTitle();
         this.content = card.getContent();
         this.endAt = card.getEndAt();
+        this.writeUser = card.getUser().getEmail();
         this.createAt = card.getCreatedAt();
         this.modifiedAt = card.getModifiedAt();
+
     }
 
     public CardResponseDto(Card card,  List<String> cardUsers) {
@@ -37,6 +43,9 @@ public class CardResponseDto {
         this.title = card.getTitle();
         this.content = card.getContent();
         this.endAt = card.getEndAt();
+
+        this.writeUser = card.getUser().getEmail();
+
         this.createAt = card.getCreatedAt();
         this.modifiedAt = card.getModifiedAt();
 
@@ -48,8 +57,12 @@ public class CardResponseDto {
         this.title = card.getTitle();
         this.content = card.getContent();
         this.endAt = card.getEndAt();
+
+        this.writeUser = card.getUser().getEmail();
+
         this.createAt = card.getCreatedAt();
         this.modifiedAt = card.getModifiedAt();
+
         this.cardUsers = makeCardUserList(cardUserList);
         this.filesName = makeFilesNameList(fileDataList);
 

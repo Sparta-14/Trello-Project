@@ -27,4 +27,9 @@ public class CardUser {
     }
 
     public CardUser() {}
+
+    public void updateCardUser(Card card, User user) {
+        this.card = card;
+        this.user = user;
+    }
 }
