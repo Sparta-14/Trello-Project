@@ -7,7 +7,7 @@ on:
       - success
 jobs:
   deploy-to-ec2:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     # https://github.com/marketplace/actions/ssh-remote-commands
     steps:
       - name: Deploy to EC2

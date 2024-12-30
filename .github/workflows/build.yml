@@ -6,7 +6,7 @@ on:
 
 jobs:
   github-build-and-push: # Jon 이름
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     # 실행 스텝 지정
     # https://github.com/marketplace/actions/build-with-gradle
