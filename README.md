@@ -18,9 +18,11 @@ https://www.notion.so/teamsparta/14-1582dc3ef51481b3908df5f7fdc77244
   - 보드, 리스트, 댓글 기능 개발
 
 ## 와이어 프레임
-![image](https://github.com/user-attachments/assets/7cf4124a-0503-4871-80e4-1d930c5fe15b)
-![image](https://github.com/user-attachments/assets/22b1066f-2bf7-411a-ac35-5bc88e76abcd)
-![image](https://github.com/user-attachments/assets/ba50ebd9-12f8-4e2c-9715-98b703d05923)
+![image](https://github.com/user-attachments/assets/fbcd47f1-e73f-44fc-ba38-63f3dc25a436)
+![image](https://github.com/user-attachments/assets/92daeae1-eb53-47fa-b926-30844e95fa00)
+![image](https://github.com/user-attachments/assets/d598c13d-4090-42dd-8950-2d5b3db541d0)
+
+
 
 
 
