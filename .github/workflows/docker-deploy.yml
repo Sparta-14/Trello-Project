@@ -51,7 +51,7 @@ jobs:
             # 새 이미지 Pull 및 실행
                     sudo docker pull ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_TAG_NAME }}:latest
                     sudo docker run -d -p 8080:8080 \
-                    -e DB_USERNAME=${{secrets.DB_USERNAME}} \
+                    -e DB_USER=${{secrets.DB_USER}} \
                     -e DB_PASSWORD=${{secrets.DB_PASSWORD}} \
-                    -e DB_URL=${{secrets.DB_URL}} \
+                    -e DB_HOST=${{secrets.DB_HOST}} \
                     ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKER_IMAGE_TAG_NAME }}:latest
