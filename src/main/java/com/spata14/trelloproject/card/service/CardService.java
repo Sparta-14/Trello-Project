@@ -83,7 +83,6 @@ public class CardService {
      */
     public CardResponseDto updateCard(Long cardId, CardRequestDto cardRequestDto, String userAuth) {
 
-//        Card card = cardRepository.findById(cardId);
         Card savedCard = cardRepository.findByIdOrElseThrow(cardId);
         if (!savedCard.getUser().getEmail().equals(userAuth)) {
             throw new CardException(CardErrorCode.ONLY_WRITER_UPDATE);
@@ -96,7 +95,6 @@ public class CardService {
         List<String> inChargeUsers = new ArrayList<>();
         if (!cardRequestDto.getInChargeUsers().isEmpty()) {
             savedCard.getCardUser().stream().forEach(c -> {
-                log.info("??? : {}, ", c);
                 cardUserRepository.deleteById(c.getId());
             });
 
@@ -140,10 +138,11 @@ public class CardService {
     public List<FileDownloadDto> downloadFiles(Long id) {
         List<FileDownloadDto> fileDownloadDtos = new ArrayList<>();
         for (FileData file : fileStorageRepository.findAllByCardId(id)) {
+            Long fileId = file.getId();
             String name = file.getName();
             byte[] decompress = FileUtils.decompressFile(file.getFileData());
             String type = file.getType();
-            fileDownloadDtos.add(new FileDownloadDto(name, decompress, type));
+            fileDownloadDtos.add(new FileDownloadDto(fileId, name, decompress, type));
         }
         return fileDownloadDtos;
     }
@@ -151,6 +150,7 @@ public class CardService {
     public FileDownloadDto downloadFileName(Long fileId) {
         FileData fileData = fileStorageRepository.findById(fileId).orElseThrow();
         return new FileDownloadDto(
+                fileData.getId(),
                 fileData.getName(),
                 FileUtils.decompressFile(fileData.getFileData()),
                 fileData.getType());
@@ -158,7 +158,7 @@ public class CardService {
 
     public String deleteCard(Long cardId, String userAuth) {
         Card savedCard = cardRepository.findByIdOrElseThrow(cardId);
-        if(userAuth.equals(savedCard.getUser().getEmail())) {
+        if (userAuth.equals(savedCard.getUser().getEmail())) {
             cardRepository.deleteById(cardId);
             return "삭제가 완료되었습니다.";
         }

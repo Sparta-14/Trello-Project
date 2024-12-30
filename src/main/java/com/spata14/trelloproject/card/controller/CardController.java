@@ -110,45 +110,27 @@ public class CardController {
     }
 
     /*
-    파일 다운로드 : 이미지 형태만 포스트맨에서 보여지고 나머지 파일들은 다운로드 형태로 처리.
+    파일 다운로드 : 파일이 1개일 때만 보여지고 나머지 파일들은 링크 리스트로 처리.
      */
     @GetMapping("/{cardId}/files")
     public ResponseEntity<?> downloadFiles(
             @PathVariable("cardId") Long id,
             @PathVariable("workspaceId") Long workspaceId
-        ) {
+    ) {
         List<FileDownloadDto> fileDownloadDtos = cardService.downloadFiles(id);
 
-        if(fileDownloadDtos.size() == 1) {
+        if (fileDownloadDtos.size() == 1) {
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.valueOf(fileDownloadDtos.get(0).getType()))
                     .body(fileDownloadDtos.get(0).getBytes());
         }
 
         Resource resource = null;
-        Map<String, String > fileMap = new HashMap<>();
-        log.info("CC  : size : {} ", cardService.downloadFiles(id).size());
+        Map<String, String> fileMap = new HashMap<>();
         for (FileDownloadDto downloadFile : fileDownloadDtos) {
-////            Path path = Paths.get(downloadFile.getName());
-//            String path = "localhost:8080/workspaces/"+workspaceId+"/card/"+id + downloadFile.getName();
-//            try {
-////                resource = new UrlResource(path.toUri());
-//                resource = new UrlResource(path);
-//
-//            } catch (MalformedURLException e) {
-//                throw new CardException(CardErrorCode.FILE_NOT_FOUNT);
-//            }
 
-            fileMap.put(downloadFile.getName(), "localhost:8080/workspaces/"+workspaceId+"/card/"+id + downloadFile.getName());
+            fileMap.put(downloadFile.getName(), "localhost:8080/workspaces/" + workspaceId + "/cards/" + id + "/files/" + downloadFile.getId());
 
-//            return ResponseEntity.status(HttpStatus.OK)
-//                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-//                    .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; fileName\"" + downloadFile.getName()+"\";")
-//                    .header(HttpHeaders.CONTENT_ENCODING,"binary")
-//                    .body(downloadFile.getBytes());
-//            return ResponseEntity.status(HttpStatus.OK)
-//                    .contentType(MediaType.valueOf(downloadFile.getType()))
-//                    .body(downloadFile.getBytes());
         }
         return ResponseEntity.status(HttpStatus.OK).body(fileMap);
 
@@ -156,9 +138,8 @@ public class CardController {
 
 
     @GetMapping("/{cardId}/files/{fileId}")
-    public ResponseEntity<?> downloadFileName(@PathVariable("fileId") Long fileId ) {
+    public ResponseEntity<?> downloadFileName(@PathVariable("fileId") Long fileId) {
         FileDownloadDto fileData = cardService.downloadFileName(fileId);
-        log.info("--- {}" ,fileData.getType());
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf(fileData.getType()))
                 .body(fileData.getBytes());
