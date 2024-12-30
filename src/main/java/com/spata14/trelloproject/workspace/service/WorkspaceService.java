@@ -109,6 +109,6 @@ public class WorkspaceService {
 
     // 워크스페이스 내부 유저들의 토큰 조회
     public List<Token> getAllUserTokens(Long workspaceId) {
-        return workspaceUserRepository.findTokensByWorkspaceId(workspaceId);
+        return workspaceUserRepository.indTokensByWorkspaceIdOrElseThrow(workspaceId);
     }
 }

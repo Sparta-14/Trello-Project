@@ -1,6 +1,7 @@
 package com.spata14.trelloproject.common.exception;
 
 import com.spata14.trelloproject.card.exception.CardException;
+import com.spata14.trelloproject.Notification.exception.NotificationException;
 import com.spata14.trelloproject.user.exception.UserException;
 import com.spata14.trelloproject.workspace.exception.WorkspaceException;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,11 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler(UserException.class)
     protected ResponseEntity<Map<String, Object>> handleUserException(UserException ex) {
+        return getMapResponseEntity(ex.getUserErrorCode().toString(), ex.getMessage(), ex.getUserErrorCode().getHttpStatus());
+    }
+
+    @ExceptionHandler(NotificationException.class)
+    protected ResponseEntity<Map<String, Object>> handleNotificationException(UserException ex) {
         return getMapResponseEntity(ex.getUserErrorCode().toString(), ex.getMessage(), ex.getUserErrorCode().getHttpStatus());
     }
 
