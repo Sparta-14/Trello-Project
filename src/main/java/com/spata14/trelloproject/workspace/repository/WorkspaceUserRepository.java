@@ -1,6 +1,8 @@
 package com.spata14.trelloproject.workspace.repository;
 
+
 import com.spata14.trelloproject.workspace.WorkspaceMemberRole;
+import com.spata14.trelloproject.user.Token;
 import com.spata14.trelloproject.workspace.WorkspaceUser;
 import com.spata14.trelloproject.workspace.exception.WorkspaceErrorCode;
 import com.spata14.trelloproject.workspace.exception.WorkspaceException;
@@ -8,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface WorkspaceUserRepository extends JpaRepository<WorkspaceUser, Long>, WorkspaceUserCustomRepository {
@@ -30,4 +33,12 @@ public interface WorkspaceUserRepository extends JpaRepository<WorkspaceUser, Lo
     default WorkspaceUser getWorkspaceOwnerOrElseThrow(String email, WorkspaceMemberRole workspaceMemberRole, Long workspaceId) {
         return getWorkspaceOwner(email, workspaceMemberRole, workspaceId).orElseThrow(() -> new WorkspaceException(WorkspaceErrorCode.WORKSPACE_UNAUTHORIZED));
     }
+
+    @Query("SELECT t " +
+            "FROM WorkspaceUser wu " +
+            "JOIN Token t ON wu.user.id = t.user.id " +
+            "WHERE wu.workspace.id = :workspaceId")
+    List<Token> findTokensByWorkspaceId(@Param("workspaceId") Long workspaceId);
 }
+
+

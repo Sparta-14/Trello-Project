@@ -1,5 +1,6 @@
 package com.spata14.trelloproject.card.controller;
 
+import com.spata14.trelloproject.Notification.facade.NotificationServiceFacade;
 import com.spata14.trelloproject.card.dto.CardRequestDto;
 import com.spata14.trelloproject.card.dto.CardResponseDto;
 import com.spata14.trelloproject.card.dto.FileDownloadDto;
@@ -21,18 +22,23 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/cards")
+@RequestMapping("workspaces/{workspaceId}/cards")
 public class CardController {
 
     private final CardService cardService;
     private final FileStorageService fileService;
+    private final NotificationServiceFacade notificationServiceFacade;
 
     /*
     카드 생성
      */
     @PostMapping
-    public ResponseEntity<?> createCard(@RequestBody CardRequestDto cardRequestDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(cardService.createCard(cardRequestDto));
+    public ResponseEntity<?> createCard(
+            @PathVariable Long workspaceId,
+            @RequestBody CardRequestDto cardRequestDto) {
+        CardResponseDto cardResponseDto = cardService.createCard(cardRequestDto);
+        notificationServiceFacade.sendSlackMessageForProcessingOutcome(workspaceId, cardResponseDto.getId(), null);
+        return ResponseEntity.status(HttpStatus.OK).body(cardResponseDto);
     }
 
     /*
@@ -41,7 +47,6 @@ public class CardController {
     @GetMapping()
     public ResponseEntity<?> readAllCards(){
         List<CardResponseDto> responseDtos = cardService.readAllCard();
-
         return ResponseEntity.status(HttpStatus.OK).body(responseDtos);
     }
 
@@ -83,7 +88,4 @@ public class CardController {
         }
         return ResponseEntity.status(HttpStatus.OK).body("?.?");
     }
-
-
-
 }
