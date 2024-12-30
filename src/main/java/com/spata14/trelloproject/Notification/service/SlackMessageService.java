@@ -2,6 +2,7 @@ package com.spata14.trelloproject.Notification.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,16 +14,12 @@ public class SlackMessageService {
 
     private final WebClient webClient = WebClient.builder().build();
 
-    public void sendMessage(Long userId, String message) {
+    @Async
+    public void sendMessage(String token, String message) {
 
         //  토큰 조작
         String SlackbaseUrl = "https://hooks.slack.com/services/";
-        String token = "";
-        String webhookUrl = createWebhookUrl(SlackbaseUrl + "T086SCHNTRA/B086HC56C22/YkdmkRbSZgwKvq1Of6SVY0x5", token);
-
-//        String webhookUrl = "https://hooks.slack.com/services/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";
-        //String webhookUrl = "https://hooks.slack.com/services/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";
-
+        String webhookUrl = createWebhookUrl(SlackbaseUrl, token);
 
         webClient.post()
                 .uri(webhookUrl)

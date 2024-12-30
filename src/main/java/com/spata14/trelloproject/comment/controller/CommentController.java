@@ -1,5 +1,6 @@
 package com.spata14.trelloproject.comment.controller;
 
+import com.spata14.trelloproject.Notification.facade.NotificationServiceFacade;
 import com.spata14.trelloproject.comment.dto.CommentRequestDto;
 import com.spata14.trelloproject.comment.dto.CommentResponseDto;
 import com.spata14.trelloproject.comment.service.CommentService;
@@ -10,16 +11,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cards/{cardId}/comments")
+@RequestMapping("workspaces/{workspaceId]/cards/{cardId}/comments")
 public class CommentController {
 
     private final CommentService commentService;
+    private final NotificationServiceFacade notificationServiceFacade;
 
     @PostMapping
     public ResponseEntity<CommentResponseDto> createComment(
+            @PathVariable Long workspaceId,
             @PathVariable Long cardId,
             @RequestBody CommentRequestDto commentRequestDto) {
         CommentResponseDto responseDto = commentService.createComment(cardId, commentRequestDto);
+
+        // 메세지 생성
+        notificationServiceFacade.sendSlackMessageForProcessingOutcome(workspaceId, cardId, responseDto.getId());
+
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
