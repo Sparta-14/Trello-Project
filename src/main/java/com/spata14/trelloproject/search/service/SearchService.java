@@ -19,7 +19,8 @@ public class SearchService {
             @Nullable Long cardId,
             @Nullable String title,
             Pageable pageable) {
-        return toDto(cardRepository.findCardsByIdOrTitleOrderByCreatedAtDesc(cardId, title, pageable));
+        Page<Card> cardsByIdOrTitleOrderByCreatedAtDesc = cardRepository.getQueryDSLCardsByIdOrTitleOrderByCreatedAtDesc(cardId, title, pageable);
+        return toDto(cardsByIdOrTitleOrderByCreatedAtDesc);
     }
 
     private Page<SearchCardResponseDto> toDto(Page<Card> cards) {
